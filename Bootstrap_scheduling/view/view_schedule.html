@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+
+<meta charset="UTF-8">
+<title>Schedule</title>
+
+<head>
+<link rel="stylesheet" href="../bootstrap/bootstrap-3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="../bootstrap/bootstrap-3.3.1/css/custom.css">
+<link rel="stylesheet" href="../bootstrap/font-awesome-4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+.banner{
+  background: linear-gradient(0deg, #eee 0%,#222 35%)
+}
+table{
+  font-weight: 600;
+}
+  .subject{
+    background: linear-gradient(1deg, #eee 0%,#428bca 90%);
+
+  }
+  .department{
+    
+    box-shadow: 0px 10px 20px 3px #555555;
+    border-radius:4px;
+    width: 100px;
+    height: 80px;
+    
+   
+  }
+
+</style>
+
+<body>
+<!---HEADER-->
+<header>
+
+<div class="banner">
+<div class="container">
+  <img src="../images/banner.png" class="img-responsive" alt="LCUP Logo" style="margin:0 auto;width:1100px;">
+</div>
+</div>
+
+
+
+<?php
+if(!isset($_SESSION['user_id'])) {
+  include("header/header.html");
+}
+else
+{
+  if ($_SESSION['user_id']->type == 'admin') {
+    include("header/admin_header.html"); 
+  }
+  elseif($_SESSION['user_id']->type == 'registrar')
+  {
+    include("header/registrar_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cite') {
+    include("header/cite_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cba') {
+    include("header/cba_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'chm') {
+    include("header/chm_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cla') {
+    include("header/cla_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'coed') {
+    include("header/coed_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cams') {
+    include("header/cams_header.html"); 
+  }
+}
+
+ ?>   
+</header> 
+<!---BODY-->
+<div class="jumbotron text-center" style="height:80px;margin-bottom:0px;background:#428bca;">
+
+
+    <h2 style="margin-top:0px;">
+      <a href="controller_schedule.php" style="color:#ffffff;">SCHEDULE</a>
+    </h2>
+</div>
+
+
+
+<!--view all schedule-->
+<div class="container subject">
+  
+    <div class="row">
+      <div class="col col-sm-6 col-md-4">
+        <a href="controller_schedule.php?department=cams" style="color:#555555;">
+          <div class="form-group" style="text-align:center;">
+            <div class="department text-center" style="background: #87C71D;margin:0 auto;">
+              <i class="fa fa-calendar fa-5x" style="margin-top:5px;color:#eee;" ></i>
+            </div>
+             <h2>CAMS</h2>
+             <p>(College of Allied Medical Sciences)</p>
+          </div> 
+        </a>
+      </div>
+
+      <div class="col col-sm-6 col-md-4">
+        <a href="controller_schedule.php?department=cba" style="color:#555555;">
+          <div class="form-group" style="text-align:center;">
+            <div class="department text-center" style="background: #41BC81;margin:0 auto;">
+              <i class="fa fa-calendar fa-5x" style="margin-top:5px;color:#eee;" ></i>
+            </div>
+             <h2>CBA</h2>
+             <p>(College of Business Administration)</p>
+          </div> 
+        </a>
+      </div>
+
+      <div class="col col-sm-6 col-md-4">
+        <a href="controller_schedule.php?department=coed" style="color:#555555;">
+          <div class="form-group" style="text-align:center;">
+            <div class="department text-center" style="background: #6A8CE9;margin:0 auto;">
+              <i class="fa fa-calendar fa-5x" style="margin-top:5px;color:#eee;" ></i>
+            </div>
+             <h2>CoEd</h2>
+             <p>(College of Education)</p>
+          </div> 
+        </a>
+      </div>
+
+      <div class="col col-sm-6 col-md-4">
+        <a href="controller_schedule.php?department=chm" style="color:#555555;">
+          <div class="form-group" style="text-align:center;">
+            <div class="department text-center" style="background: #07B3D3;margin:0 auto;">
+              <i class="fa fa-calendar fa-5x" style="margin-top:5px;color:#eee;" ></i>
+            </div>
+             <h2>CHM</h2>
+             <p>(College of Hospitality Management)</p>
+          </div> 
+        </a>
+      </div>
+
+      <div class="col col-sm-6 col-md-4">
+        <a href="controller_schedule.php?department=cite" style="color:#555555;">
+          <div class="form-group" style="text-align:center;">
+            <div class="department text-center" style="background: #FF9900;margin:0 auto;">
+              <i class="fa fa-calendar fa-5x" style="margin-top:5px;color:#eee;" ></i>
+            </div>
+             <h2>CITE</h2>
+             <p>(College of Information Technology and Engineering)</p>
+          </div> 
+        </a>
+      </div>
+
+      <div class="col col-sm-6 col-md-4">
+        <a href="controller_schedule.php?department=cla" style="color:#555555;">
+          <div class="form-group" style="text-align:center;">
+            <div class="department text-center" style="background: #555555;margin:0 auto;">
+              <i class="fa fa-calendar fa-5x" style="margin-top:5px;color:#eee;" ></i>
+            </div>
+             <h2>CLA</h2>
+             <p>(College of Liberal Arts)</p>
+          </div> 
+        </a>
+      </div>
+
+
+      </div>
+
+  
+  </div>
+        
+
+
+
+
+
+
+
+
+</div>
+ <!--view all schedule END-->
+
+
+
+
+<!--FOOTER-->
+<footer style="margin-top:100px;">
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <div class='hidden-xs'>
+      <div class="row">
+        <div class="col col-md-8">
+          <h3 class="navbar-text">La Consolacion University Philippines</h3>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_subject.php" title="subject"><i class="fa fa-book fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_faculty.php" title="faculty"><i class="fa fa-users fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_room.php" title="Room"><i class="fa fa-slideshare fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_schedule.php" title="Schedule"><i class="fa fa-calendar fa-2x"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <div class='visible-xs'>  
+    <div class="row">
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_subject.php" title="subject"><i class="fa fa-book fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_faculty.php" title="faculty"><i class="fa fa-users fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_room.php" title="Room"><i class="fa fa-slideshare fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_schedule.php" title="Schedule"><i class="fa fa-calendar fa-2x"></i></a></p></div>
+    </div>
+    </div>
+  </div>
+</div>
+</footer>
+<!--Footer END-->
+
+
+
+
+
+<!---Log in form-->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Log in</h4>
+      </div>
+      <div class="modal-body">
+
+<form action="controller_homepage.php" method='post'>
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+	<div class="form-group">	
+		<div class="input-group">
+	 	<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+	  	<input type="text" name="uname" class="form-control" placeholder="Username">
+	  	</div>
+	</div>	
+	<div class="form-group">	
+		<div class="input-group">
+	 	<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+	  	<input type="password" name="pword" class="form-control" placeholder="Password">
+	  	</div>
+	</div>	
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+       <a href=""> <button type="button submit" class="btn btn-success  " name="submit">Log in</button></a>
+      </div>
+      </form>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+  <!-- Search modal  -->
+<div class="modal fade search-schedule-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Search schedule</h4>
+      </div>
+      <form action="" method="post">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col col-xs-6">
+            <input type="text" name="search1" class="form-control" placeholder="Search Schedule" required="true">
+          </div>
+          <div class="col col-xs-6">
+            <select class="form-control" name="search2">
+              <option value="room_name">ROOM</option>
+              <option value="room_type">TYPE</option>
+              <option value="campus">CAMPUS</option>
+              <option value="building">BUILDING</option>
+      
+            </select> 
+           </div>
+        </div>
+      </div>
+
+  
+        <div class="modal-footer">
+        <a href="controller_schedule.php"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+        <button type="button submit" name="search_schedule" class="btn btn-success btn-sm">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+ <!-- Search modal  END-->
+
+
+
+<script src="../bootstrap/jquery-1.11.1.min.js"></script>
+<script src="../bootstrap/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<?php if(isset($_GET['search'])==1){ ?>
+<script>
+  $(document).ready(function(){
+  $('.search-schedule-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+
+
+</body>
+</html>

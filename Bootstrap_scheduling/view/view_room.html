@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+
+<meta charset="UTF-8">
+<title>Room</title>
+
+<head>
+<link rel="stylesheet" href="../bootstrap/bootstrap-3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="../bootstrap/bootstrap-3.3.1/css/custom.css">
+<link rel="stylesheet" href="../bootstrap/font-awesome-4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<div class="banner">
+<div class="container">
+  <img src="../images/banner.png" class="img-responsive" alt="LCUP Logo" style="margin:0 auto;width:1100px;">
+</div>
+</div>
+
+
+<style>
+.banner{
+  background: linear-gradient(0deg, #eee 0%,#222 35%)
+}
+table{
+  font-weight: 600;
+}
+  .subject{
+    background: linear-gradient(1deg, #eee 0%,#428bca 90%);
+
+  }
+</style>
+
+<body>
+<!---HEADER-->
+<header>
+
+<?php
+if(!isset($_SESSION['user_id'])) {
+  include("header/header.html");
+}
+else
+{
+  if ($_SESSION['user_id']->type == 'admin') {
+    include("header/admin_header.html"); 
+  }
+  elseif($_SESSION['user_id']->type == 'registrar')
+  {
+    include("header/registrar_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cite') {
+    include("header/cite_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cba') {
+    include("header/cba_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'chm') {
+    include("header/chm_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cla') {
+    include("header/cla_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'coed') {
+    include("header/coed_header.html"); 
+  }
+  elseif ($_SESSION['user_id']->type == 'cams') {
+    include("header/cams_header.html"); 
+  }
+}
+
+ ?>   
+</header> 
+<!---BODY-->
+<div class="jumbotron text-center" style="height:80px;margin-bottom:0px;background:#428bca;">
+
+
+    <h2 style="margin-top:0px;">
+      <a href="controller_room.php" style="color:#ffffff;">ROOM</a>
+      <a href="controller_room.php?search=1" style="color:#ffffff;" title="Search Room"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+    </h2>
+</div>
+<!--view all subjects-->
+<div class="container subject">
+  <div class="table-responsive ">
+    <table class="table table-hover table-bordered">
+      <tr style="background:#ffffff;">
+        <th>ROOM</th>
+        <th>TYPE</th> 
+        <th>CAMPUS</th>
+        <th>BUILDING</th>
+        <th>ACTION</th>
+      </tr>
+      <?php if (isset($_GET['s'])==null) {?>
+      <?php if(!empty($viewRoom)){ ?>
+      <?php foreach ($viewRoom as $key => $row){?>
+      <tr>
+         <td><?php echo $viewRoom[$key]['room_name']; ?></td>
+         <td><?php echo $viewRoom[$key]['room_type']; ?></td>
+         <td><?php echo $viewRoom[$key]['campus']; ?></td>
+         <td><?php echo $viewRoom[$key]['building']; ?></td>
+         <td>
+           <a href="controller_room.php?view=<?php echo $viewRoom[$key]['room_id']; ?>">
+           <button title="View room" type="button" class="btn btn-success btn-xs">
+           <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 
+           </button> 
+           </a>  
+         </td>
+         
+      </tr>
+      <?php }}else{echo "<i style='color:red; font-size:20px;'>"."No Professor Existed". "</i>";} ?>
+      <?php }else{ ?>
+
+     <?php if(!empty($searchRoom)){ ?>
+     <?php foreach ($searchRoom as $key => $row){?>
+      <tr>
+         <td><?php echo $searchRoom[$key]['room_name']; ?></td>
+         <td><?php echo $searchRoom[$key]['room_type']; ?></td>
+         <td><?php echo $searchRoom[$key]['campus']; ?></td>
+         <td><?php echo $searchRoom[$key]['building']; ?></td>
+         <td>
+          <a href="controller_room.php?view=<?php echo $searchRoom[$key]['room_id']; ?>">
+           <button title="View Room" type="button" class="btn btn-success btn-xs">
+           <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 
+           </button> 
+           </a>  
+           
+         </td>
+
+         
+      </tr>
+      <?php }}else{echo "<i style='color:red; font-size:20px;'>"."No Professor Existed". "</i>";} ?>
+
+
+      <?php } ?>
+    </table>
+  </div>
+</div>
+<!--view all subjects END-->
+
+
+
+
+<!--FOOTER-->
+<footer style="margin-top:100px;">
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <div class='hidden-xs'>
+      <div class="row">
+        <div class="col col-md-8">
+          <h3 class="navbar-text">La Consolacion University Philippines</h3>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_subject.php" title="subject"><i class="fa fa-book fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_faculty.php" title="faculty"><i class="fa fa-users fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_room.php" title="Room"><i class="fa fa-slideshare fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_schedule.php" title="Schedule"><i class="fa fa-calendar fa-2x"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <div class='visible-xs'>  
+    <div class="row">
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_subject.php" title="subject"><i class="fa fa-book fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_faculty.php" title="faculty"><i class="fa fa-users fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_room.php" title="Room"><i class="fa fa-slideshare fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_schedule.php" title="Schedule"><i class="fa fa-calendar fa-2x"></i></a></p></div>
+    </div>
+    </div>
+  </div>
+</div>
+</footer>
+<!--Footer END-->
+
+
+
+
+
+<!---Log in form-->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Log in</h4>
+      </div>
+      <div class="modal-body">
+
+<form action="controller_homepage.php" method='post'>
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+	<div class="form-group">	
+		<div class="input-group">
+	 	<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+	  	<input type="text" name="uname" class="form-control" placeholder="Username">
+	  	</div>
+	</div>	
+	<div class="form-group">	
+		<div class="input-group">
+	 	<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+	  	<input type="password" name="pword" class="form-control" placeholder="Password">
+	  	</div>
+	</div>	
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+       <a href=""> <button type="button submit" class="btn btn-success  " name="submit">Log in</button></a>
+      </div>
+      </form>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+  <!-- Search modal  -->
+<div class="modal fade search-room-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Search Room</h4>
+      </div>
+      <form action="" method="post">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col col-xs-6">
+            <input type="text" name="search1" class="form-control" placeholder="Search Room" required="true">
+          </div>
+          <div class="col col-xs-6">
+            <select class="form-control" name="search2">
+              <option value="room_name">ROOM</option>
+              <option value="room_type">TYPE</option>
+              <option value="campus">CAMPUS</option>
+              <option value="building">BUILDING</option>
+      
+            </select> 
+           </div>
+        </div>
+      </div>
+
+  
+        <div class="modal-footer">
+        <a href="controller_room.php"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+        <button type="button submit" name="search_room" class="btn btn-success btn-sm">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+ <!-- Search modal  END-->
+
+<!-- view print room scheduleModal Modal -->
+<div class="modal fade view-room-schedule-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+ 
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div id="print_schedule">
+      <div class="modal-header">
+        <h4>
+        <?php echo $allRoom->selectedRoom($_GET,'view')['room_name']; ?> - Schedule
+      
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <tr>
+              <th>TIME/DAYS</th>
+              <td>Monday</td>
+              <td>Tuesday</td>
+              <td>Wednesday</td>
+              <td>Thursday</td>
+              <td>Friday</td>
+              <td>Saturday</td>
+              <td>Sunday</td>
+             </tr> 
+             <?php if (!empty($roomSched)) {?>
+             <?php foreach ($roomSched as $key => $row){?> 
+             <tr>
+               <td>
+               <?php echo date("g:i a", strtotime($roomSched[$key]['time_start'])); ?> 
+               <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-<br>
+               <?php echo date("g:i a", strtotime($roomSched[$key]['time_end'])); ?> 
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="MON")or($roomSched[$key]['optional_day']=="MON")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="TUES")or($roomSched[$key]['optional_day']=="TUES")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="WED")or($roomSched[$key]['optional_day']=="WED")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="THUR")or($roomSched[$key]['optional_day']=="THUR")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="FRI")or($roomSched[$key]['optional_day']=="FRI")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="SAT")or($roomSched[$key]['optional_day']=="SAT")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+               <td style="text-align:center;">
+                 <?php if (($roomSched[$key]['days']=="SUN")or($roomSched[$key]['optional_day']=="SUN")){?>
+                    <?php if(!empty($roomSched[$key]['professor'])){
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['fname']." ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['mname'].". ";
+                      echo $allRoom->idtoName($roomSched[$key]['professor'])['lname'];
+                    }else{echo "no assign professor";} ?><br>
+                    (<?php echo $roomSched[$key]['subj_no']; ?>)<br>
+                    <?php echo $roomSched[$key]['course'];?><br>
+                    <?php echo $roomSched[$key]['semester'];?>
+                    <?php } ?>
+               </td>
+
+              
+               
+             </tr>
+             <?php } ?>
+             <?php }else{echo "<i style='color:red; font-size:20px;'>"."No Schedule Assigned yet". "</i>";} ?>
+          </table>
+        </div><!--End of table responsive-->
+        
+      </div>
+      </div>
+      <form action="#" method="post">
+        <div class="modal-footer">
+        <a href="controller_room.php"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+        
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+  <!-- view print room scheduleModal Modal END-->
+
+<script src="../bootstrap/jquery-1.11.1.min.js"></script>
+<script src="../bootstrap/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<?php if(isset($_GET['search'])==1){ ?>
+<script>
+  $(document).ready(function(){
+  $('.search-room-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+<?php if(isset($_GET['view']) >0){ ?>
+<script>
+$(document).ready(function(){
+$('.view-room-schedule-modal').modal('show')
+});
+</script>
+<?php } ?>
+
+</body>
+</html>
