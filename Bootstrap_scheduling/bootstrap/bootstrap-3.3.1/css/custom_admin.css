@@ -1,0 +1,12 @@
+body{background-color:#eee;}
+.jumbotron{color:#ffffff;height: 160px;background-color:#428bca;height:150px;}
+.navbar{margin-bottom:0; border-radius: 0;}
+.container.text-center{ margin-bottom: 70px}
+.navbar.navbar-default.navbar-fixed-bottom{background: linear-gradient(360deg, #428bca 0%,#eee 100%); }
+.panel-group{margin-bottom: 100px}
+.table.table.table.table-bordered.table-hover{}
+.panel-primary{background: linear-gradient(180deg, #428bca 0%,#eee 100%);}
+h2{
+  font-weight: normal;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}

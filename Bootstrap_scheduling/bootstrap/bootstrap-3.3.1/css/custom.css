@@ -1,0 +1,12 @@
+body{background-color:#eee;}
+.jumbotron{color:#ffffff;height: 250px; background: linear-gradient(1deg, #eee 0%,#428bca 100%);}
+.navbar{margin-bottom:0; border-radius: 0;}
+.container.text-center{ margin-bottom: 70px}
+.col-xs-12{margin-bottom: 50px;}
+.icon{color:black;}
+.navbar.navbar-default.navbar-fixed-bottom{background: linear-gradient(360deg, #428bca 0%,#eee 100%); }
+h1,h2,h3,h4,h5{
+  font-weight: normal;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+

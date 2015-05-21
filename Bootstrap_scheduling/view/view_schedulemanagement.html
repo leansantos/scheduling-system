@@ -1,0 +1,987 @@
+<?php 
+if(!isset($_SESSION['user_id']))
+{
+  header("location:../controller/controller_homepage.php");
+}
+else
+{
+  if(($_SESSION['user_id']->type != 'cite')and($_SESSION['user_id']->type != 'cba')and($_SESSION['user_id']->type != 'chm')and($_SESSION['user_id']->type != 'cla')and($_SESSION['user_id']->type != 'coed')and($_SESSION['user_id']->type != 'cams'))
+  {
+    header('location:../controller/controller_homepage.php');
+  }
+
+}
+  ?>
+<!doctype html>
+<html lang="en">
+
+<meta charset="UTF-8">
+<title>Schedule Management Panel</title>
+<head>
+<link rel="stylesheet" type="text/css" href="../bootstrap/bootstrap-3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../bootstrap/bootstrap-3.3.1/css/custom_admin.css">
+<link rel="stylesheet" type="text/css" href="../bootstrap/font-awesome-4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../bootstrap/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.css">
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="schedule">
+<!---HEADER-->
+<header>
+
+<div class="banner">
+<div class="container">
+  <img src="../images/banner.png" class="img-responsive" alt="LCUP Logo" style="margin:0 auto;width:1100px;">
+</div>
+</div>
+
+<style>
+.banner{
+  background: linear-gradient(0deg, #eee 0%,#222 35%)
+}
+  table{
+  font-weight: 600;
+}
+</style>
+<?php
+if(!isset($_SESSION['user_id'])) {
+  include("header/header.html");
+}
+else
+{
+  if ($_SESSION['user_id']->type == 'cite') {
+    include("header/cite_header.html"); 
+    if(isset($_GET['cou']) == null){ 
+    header("location:controller_schedulemanagement.php?cou=BSIT-1&sem=1st semester&s_year=". date('Y'). "&e_year=". (date('Y')+1) );
+    }
+  }
+  elseif ($_SESSION['user_id']->type == 'cba') {
+    include("header/cba_header.html"); 
+    if(isset($_GET['cou']) == null){ 
+    header("location:controller_schedulemanagement.php?cou=BSAcT-1&sem=1st semester&s_year=". date('Y'). "&e_year=". (date('Y')+1));
+    }
+  }
+  elseif ($_SESSION['user_id']->type == 'chm') {
+    include("header/chm_header.html");
+    if(isset($_GET['cou']) == null){ 
+    header("location:controller_schedulemanagement.php?cou=BSHRM-1&sem=1st semester&s_year=". date('Y'). "&e_year=". (date('Y')+1));
+    }
+  }
+  elseif ($_SESSION['user_id']->type == 'cla') {
+    include("header/cla_header.html"); 
+    if(isset($_GET['cou']) == null){ 
+    header("location:controller_schedulemanagement.php?cou=AB-1&sem=1st semester&s_year=". date('Y'). "&e_year=". (date('Y')+1));
+    }
+  }
+  elseif ($_SESSION['user_id']->type == 'coed') {
+    include("header/coed_header.html"); 
+    if(isset($_GET['cou']) == null){ 
+    header("location:controller_schedulemanagement.php?cou=BSE-1&sem=1st semester&s_year=". date('Y'). "&e_year=". (date('Y')+1));
+    }
+  }
+  elseif ($_SESSION['user_id']->type == 'cams') {
+    include("header/cams_header.html"); 
+    if(isset($_GET['cou']) == null){ 
+    header("location:controller_schedulemanagement.php?cou=BSMT-1&sem=1st semester&s_year=". date('Y'). "&e_year=". (date('Y')+1));
+    }
+
+  }
+}
+
+ ?>  
+
+
+
+
+</header> 
+
+<!---HEADER END-->
+<!---BODY-->
+<div class="jumbotron">
+  <div class="col col-md-6 text-center">
+    <h2>SCHEDULE MANAGEMENT</h2>
+    
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+   <!--view course schedule form-->   
+    <div class="panel panel-primary">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          View Schedule
+          </a>
+        </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <form action="" method="post">
+          <div class="form">
+            <div class="form-group">
+              <div class="row">
+                <div class="col col-sm-3">
+                  <div class="form-group">
+                    <select class="form-control" name="course" required='true'>
+                      <option>
+                      <?php echo $_GET['cou'] ?>
+                      </option>
+                      <?php if($_SESSION['user_id']->type == 'cite') { ?>
+                      <optgroup label="-Bachelor of Science in Information Technology-">
+                        <option>BSIT-1</option>
+                        <option>BSIT-2</option>
+                        <option>BSIT-3</option>
+                        <option>BSIT-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Computer Science-">
+                        <option>BSCS-1</option>
+                        <option>BSCS-2</option>
+                        <option>BSCS-3</option>
+                        <option>BSCS-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Computer Engineering-">
+                       <option>BSCoE-1</option>
+                       <option>BSCoE-2</option>
+                       <option>BSCoE-3</option>
+                       <option>BSCoE-4</option>
+                       <option>BSCoE-5</option>
+                       </optgroup>
+                       <optgroup label="-Bachelor of Science in Information System-">
+                       <option>BSIS-1</option>
+                       <option>BSIS-2</option>
+                       <option>BSIS-3</option>
+                       <option>BSIS-4</option>
+                       </optgroup>
+                      <?php }elseif ($_SESSION['user_id']->type == 'cba') {?>
+                      <optgroup label="-Bachelor of Science in Accounting Technology-">
+                        <option>BSAcT-1</option>
+                        <option>BSAcT-2</option>
+                        <option>BSAcT-3</option>
+                        <option>BSAcT-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Business Administration-">
+                        <option>BSBA-1</option>
+                        <option>BSBA-2</option>
+                        <option>BSBA-3</option>
+                        <option>BSBA-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Office Admisnistration-">
+                       <option>BSOA-1</option>
+                       <option>BSOA-2</option>
+                       <option>BSOA-3</option>
+                       <option>BSOA-4</option>          
+                       </optgroup>
+                       <optgroup label="-Bachelor of Science in Entrepreneurship-">
+                       <option>BSE-1</option>
+                       <option>BSE-2</option>
+                       <option>BSE-3</option>
+                       <option>BSE-4</option>
+                       </optgroup>
+
+                      <?php }elseif ($_SESSION['user_id']->type == 'chm') { ?>
+                      <optgroup label="-Bachelor of Science in Hotel and Restaurant Management-">
+                        <option>BSHRM-1</option>
+                        <option>BSHRM-2</option>
+                        <option>BSHRM-3</option>
+                        <option>BSHRM-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Tourism Management-">
+                        <option>BSTM-1</option>
+                        <option>BSTM-2</option>
+                        <option>BSTM-3</option>
+                        <option>BSTM-4</option>
+                      </optgroup>
+                      <?php }elseif ($_SESSION['user_id']->type == 'cams') {?>
+                      <optgroup label="-Bachelor of Science in Medical Technology-">
+                        <option>BSMT-1</option>
+                        <option>BSMT-2</option>
+                        <option>BSMT-3</option>
+                        <option>BSMT-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Nursing-">
+                        <option>BSN-1</option>
+                        <option>BSN-2</option>
+                        <option>BSN-3</option>
+                        <option>BSN-4</option>
+                      </optgroup>
+                      <?php }elseif ($_SESSION['user_id']->type == 'coed') {?>
+                      <optgroup label="-Bachelor of Secondary Education-">
+                        <option>BSE-1</option>
+                        <option>BSE-2</option>
+                        <option>BSE-3</option>
+                        <option>BSE-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor in Elementary Education">
+                        <option>BEED-1</option>
+                        <option>BEED-2</option>
+                        <option>BEED-3</option>
+                        <option>BEED-4</option>
+                      </optgroup>
+                      <?php }elseif ($_SESSION['user_id']->type == 'cla') { ?> 
+                      <optgroup label="-Bachelor of Arts-">
+                        <option>AB-1</option>
+                        <option>AB-2</option>
+                        <option>AB-3</option>
+                        <option>AB-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Social Work-">
+                        <option>BSW-1</option>
+                        <option>BSW-2</option>
+                        <option>BSW-3</option>
+                        <option>BSW-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Psychology-">
+                        <option>BSP-1</option>
+                        <option>BSP-2</option>
+                        <option>BSP-3</option>
+                        <option>BSP-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Science in Biology-">
+                        <option>BSBio-1</option>
+                        <option>BSBio-2</option>
+                        <option>BSBio-3</option>
+                        <option>BSBio-4</option>
+                      </optgroup>
+                      <optgroup label="-Bachelor of Arts in Psychology-">
+                        <option>BAP-1</option>
+                        <option>BAP-2</option>
+                        <option>BAP-3</option>
+                        <option>BAP-4</option>
+                      </optgroup>
+
+                      <?php } ?>
+                      
+                    </select>
+                  </div>
+                </div>
+                <div class="col col-sm-2">
+                  <div class="form-group">
+                    <select class="form-control" name="semester" required='true'>
+                      <option>
+                      <?php echo $_GET['sem'] ?>
+                      </option>
+                      <option>1st semester</option>
+                      <option>2nd semester</option>
+                    </select>
+                  </div>  
+                </div>
+                <div class="col col-sm-2">
+                   <div class="form-group">
+                    <select class="form-control" name="year_start" required='true'>
+                      <option>
+                      <?php $yearStart = date('Y'); ?>
+                      <?php echo $_GET['s_year'] ?>
+                      </option>
+                      <option><?php echo $yearStart+5; ?></option>
+                      <option><?php echo $yearStart+4; ?></option>
+                      <option><?php echo $yearStart+3; ?></option>
+                      <option><?php echo $yearStart+2; ?></option>
+                      <option><?php echo $yearStart+1; ?></option>
+                      <option><?php echo $yearStart; ?></option>
+                      <option><?php echo $yearStart-1; ?></option>
+                      <option><?php echo $yearStart-2; ?></option>
+                      <option><?php echo $yearStart-3; ?></option>
+                      <option><?php echo $yearStart-4; ?></option>
+                      <option><?php echo $yearStart-5; ?></option>
+                      <option><?php echo $yearStart-6; ?></option>
+                      <option><?php echo $yearStart-7; ?></option>
+                      <option><?php echo $yearStart-8; ?></option>
+                      <option><?php echo $yearStart-9; ?></option>
+                      <option><?php echo $yearStart-10; ?></option>
+                      
+                    </select> 
+                  </div>  
+                </div>
+
+                <div class="col col-sm-2">
+                  <div class="form-group">
+                  <select class="form-control" name="year_end" required='true'>
+                      <option>
+                      <?php $yearEnd = date('Y') + 1;?>
+                      <?php echo $_GET['e_year'] ?>
+                      </option>
+                      <option> <?php echo $yearEnd+5; ?></option>
+                      <option> <?php echo $yearEnd+4; ?></option>
+                      <option> <?php echo $yearEnd+3; ?></option>
+                      <option> <?php echo $yearEnd+2; ?></option>
+                      <option> <?php echo $yearEnd+1; ?></option>
+                      <option> <?php echo $yearEnd; ?></option>
+                      <option> <?php echo $yearEnd-1; ?></option>
+                      <option> <?php echo $yearEnd-2; ?></option>
+                      <option> <?php echo $yearEnd-3; ?></option>
+                      <option> <?php echo $yearEnd-4; ?></option>
+                      <option> <?php echo $yearEnd-5; ?></option>
+                      <option> <?php echo $yearEnd-6; ?></option>
+                      <option> <?php echo $yearEnd-7; ?></option>
+                      <option> <?php echo $yearEnd-8; ?></option>
+                      <option> <?php echo $yearEnd-9; ?></option>
+                      <option> <?php echo $yearEnd-10; ?></option>
+                       
+                    </select>
+                    </div>
+                </div>
+                <div class="col col-sm-2">
+                  <div class="form-group">
+                  <button type="button submit" name="search_sched" class="btn btn-success">Search</button> 
+                  </div>
+                </div>
+                <div class="col col-sm-1">
+                  <div class="form-group">
+                    <a href="controller_schedulemanagement.php?print_shed=1&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'] ?>&e_year=<?php echo $_GET['e_year'] ?>">
+                    <button title="Print View" type="button" class="btn btn-success btn-md">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 
+                    </button> 
+                    </a>
+                  </div>
+                </div>
+              </div>            
+            </div>
+          </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <tr>
+                <th>Subjects</th>
+                <th>Subj. No.</th>
+                <th>Room</th>
+                <th>Professor</th>
+                <th>Days</th>
+                <th>Time</th>
+                <th>Units</th>
+                <th>Action</th>
+              </tr>       
+               <?php if(!empty($scheds)){
+                       foreach ($scheds as $key => $row){?>       
+                      <tr>
+                        <td><?php echo $sched->idtoName($scheds[$key]['subjects'])['course_code'];?></td>
+                        <td><?php echo $scheds[$key]['subj_no']; ?></td>
+
+                        <?php if (empty($scheds[$key]['room'])) {?>
+                            <td style="text-align:center;"><a href="controller_schedulemanagement.php?assign_room=<?php echo $scheds[$key]['subj_no']; ?>&cou=<?php echo $_GET['cou']; ?>&sem=<?php echo $_GET['sem']; ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">
+                            <button title="assign_room" type="button" class="btn btn-danger btn-xs">
+                            Assign Room
+                            </button>
+                            </a></td>  
+                        <?php } else {echo "<td>". $sched->roomidtoName($scheds[$key]['room'])['room_name']. "</td>";}?>
+                        
+                        <?php if (empty($scheds[$key]['professor'])) {?>
+                            <td style="text-align:center;"><a href="controller_schedulemanagement.php?assign_prof=<?php echo $scheds[$key]['subj_no']; ?>&cou=<?php echo $_GET['cou']; ?>&sem=<?php echo $_GET['sem']; ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>&subj=<?php echo $sched->idtoName($scheds[$key]['subjects'])['course_code'];?>">
+                            <button title="assign_professor" type="button" class="btn btn-danger btn-xs">
+                            Assign Professor
+                            </button>
+                            </a></td>  
+                        <?php } else {echo "<td>". $sched->profidtoName($scheds[$key]['professor'])['fname']. " ". $sched->profidtoName($scheds[$key]['professor'])['mname']. ". ". $sched->profidtoName($scheds[$key]['professor'])['lname']. "</td>";}?>
+                        
+                        <td><?php echo $scheds[$key]['days']; ?>
+                        <?php if (!empty($scheds[$key]['optional_day'])){
+                          echo "-". $scheds[$key]['optional_day'];
+                        } ?>
+                        </td>
+                        <td>
+                        <?php echo date("g:i a", strtotime($scheds[$key]['time_start'])); ?> 
+                        - 
+                        <?php echo date("g:i a", strtotime($scheds[$key]['time_end'])); ?>
+                        </td>
+                        <td><?php echo $sched->idtoName($scheds[$key]['subjects'])['total_unit'];?></td>
+                        <td>
+
+                          <a href="controller_schedulemanagement.php?delete_sched=<?php echo $scheds[$key]['subj_no']; ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">
+                            <button title="Delete" type="button" class="btn btn-danger btn-xs">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                          </a>   
+                          <a href="controller_schedulemanagement.php?update_sched=<?php echo $scheds[$key]['subj_no']; ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">
+                            <button title="Edit" type="button" class="btn btn-success btn-xs">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </button> 
+                          </a>  
+                        </td>
+                      </tr>    
+               <?php    } 
+                    }
+                    else {
+                      //echo "<div class='alert alert-danger' role='alert'> No Schedule Existed </div>";
+                     echo "<i style='color:red; font-size:20px;'>"."No Schedule Existed". "</i>";
+                    }?>                                  
+            </table>
+              <button type="button submit" name="addsubj" class="btn btn-success">Add Subject</button> 
+          </div>
+        </form>
+      </div>
+      </div>
+    </div>
+
+  
+  </div><!--add schedule form END-->
+</div> <!--END of container-->
+
+  <!--Add Subject to Schedule Modal form-->
+<div class="modal fade add-sched-subject-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Add Subject to <?php echo "<kbd>". $_GET['cou']. "</kbd>". " - ". "<kbd>".$_GET['sem']. "</kbd>"; ?></h4>
+      </div>
+      <div class="modal-body">      
+        <form action="" method="post">
+          <div class="form">
+            <div class="form-group">
+                  
+              <label>Subject</label>
+              <input type="text" class="form-control" name="subject" id="display" required='true' list="list-display"/>
+              <datalist id="list-display">
+              <?php foreach ($selectSubj as $key => $row){?>
+              <option value="<?php echo $selectSubj[$key]['course_code']; ?>">
+              <?php echo $selectSubj[$key]['descriptive_title']." "; ?>&nbsp &nbsp &nbsp &nbsp &nbsp<?php echo $selectSubj[$key]['total_unit']; ?> Units</option>
+               <?php } ?>
+              </datalist> 
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col col-sm-6">
+                  <label>Start Time</label>
+                  <div class="input-group clockpicker" data-autoclose="true">
+                    <input type="text" name="start_t" class="form-control" value="<?php  if(!empty($scheds)){echo date('H:i', strtotime("+15 minutes", strtotime($sched->gethighestTime($_GET)['time_end'])));}
+                    else{echo "7:30";}?>" required='true'>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="col col-sm-6">
+                  <label>End Time</label>
+                  <div class="input-group clockpicker" data-autoclose="true">
+                    <input type="text" name="end_t" class="form-control" value="<?php if(!empty($scheds)){echo date('H:i', strtotime("+105 minutes", strtotime($sched->gethighestTime($_GET)['time_end'])));}
+                    else{echo "9:00";}?>" required='true'>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col col-sm-6">
+                  <label>Day/s</label>               
+                  <select class="form-control" name="day" required='true'>                
+                  <option></option>
+                  <option>MON</option>
+                  <option>TUES</option>
+                  <option>WED</option>
+                  <option>THUR</option>
+                  <option>FRI</option>
+                  <option>SAT</option>
+                  <option>SUN</option>
+                  </select>              
+                </div> 
+                <div class="col col-sm-6">
+                  <label style="">Day/s (Optional)</label>
+                  <select class="form-control" name="opt_day">
+                  <option></option>
+                  <option>MON</option>
+                  <option>TUES</option>
+                  <option>WED</option>
+                  <option>THUR</option>
+                  <option>FRI</option>
+                  <option>SAT</option>
+                  <option>SUN</option>
+                  </select> 
+                  </div> 
+                  </div>
+            </div>
+            </div>
+          <div class="modal-footer">
+            <a href="controller_schedulemanagement.php?cou=<?php echo $_GET['cou'];?>&sem=<?php echo $_GET['sem'];?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+            <button type="button submit" name="confirm_addsubj" class="btn btn-success btn-sm">Add Subject</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  <!--Add Subject to Schedule Modal form END-->
+
+<!--Assign room to Schedule Modal form-->
+<div class="modal fade assign-room-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Assign Room to <?php  echo '<kbd>'. $_GET['cou'].'</kbd>' ;?> - <?php echo '<kbd>'. $_GET['sem']. '</kbd>' ?></h4>
+      </div>
+      <form action="" method="post">
+      <div class="modal-body">   
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <tr style="background:black;">
+              <th><a href="controller_schedulemanagement.php?sort_room=room_name&assign_room=<?php echo $_GET['assign_room'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">ROOM</a></th>
+              <th><a href="controller_schedulemanagement.php?sort_room=room_type&assign_room=<?php echo $_GET['assign_room'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">ROOM TYPE</th>
+              <th><a href="controller_schedulemanagement.php?sort_room=campus&assign_room=<?php echo $_GET['assign_room'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">CAMPUS</th>
+              <th><a href="controller_schedulemanagement.php?sort_room=building&assign_room=<?php echo $_GET['assign_room'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">BUILDING</th>
+              <th><a href="#">ACTION</a></th>
+            </tr>  
+
+           
+            <?php if (!empty($rooms)) {?>
+            <?php foreach ($rooms as $key => $row){?> 
+              <tr class="success">
+              <td><?php echo $rooms[$key]['room_name']; ?></td>
+              <td><?php echo $rooms[$key]['room_type']; ?></td>
+              <td><?php echo $rooms[$key]['campus']; ?></td>
+              <td><?php echo $rooms[$key]['building']; ?></td>
+              <td>
+                <a href="controller_assignroom.php?room_id=<?php echo $rooms[$key]['room_id'] ?>&assign_room=<?php echo $_GET['assign_room'] ?>&cou=<?php echo $_GET['cou']?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">
+                <button title="assign_room" type="button" class="btn btn-success btn-xs">Assign</button>
+                </a>
+              </td>
+              </tr>
+             <?php } }?>     
+          </table>
+        </div>          
+      </div>
+      <div class="modal-footer">
+        <a href="controller_schedulemanagement.php?cou=<?php echo $_GET['cou'];?>&sem=<?php echo $_GET['sem']; ?>&s_year=<?php echo $_GET['s_year']; ?>&e_year=<?php echo $_GET['e_year']; ?>"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <!--Assign room Modal form END-->
+
+<!--Assign Professor to Schedule Modal form-->
+<div class="modal fade assign-prof-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Assign Professor to <?php  echo '<kbd>'. $_GET['cou'].'</kbd>' ;?> - <?php echo '<kbd>'. $_GET['sem']. '</kbd>' ?></h4>
+      </div>
+      <form action="" method="post">
+      <div class="modal-body">   
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <tr style="background:black;">
+              <th><a href="controller_schedulemanagement.php?sort_prof=lname&assign_prof=<?php echo $_GET['assign_prof'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">LAST NAME</a></th>
+              <th><a href="controller_schedulemanagement.php?sort_prof=fname&assign_prof=<?php echo $_GET['assign_prof'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">FIRST NAME</a></th>
+              <th><a href="controller_schedulemanagement.php?sort_prof=mname&assign_prof=<?php echo $_GET['assign_prof'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">MIDLE NAME</a></th>
+              <th><a href="controller_schedulemanagement.php?sort_prof=department&assign_prof=<?php echo $_GET['assign_prof'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">DEPARTMENT</a></th>
+              <th><a href="controller_schedulemanagement.php?sort_prof=subj_taken&assign_prof=<?php echo $_GET['assign_prof'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">PREVIOUS SUBJECT SCHEDULE</a></th>
+              <th><a href="">ACTION</a></th>
+            </tr>
+            <?php foreach ($viewProf as $key => $row){?>   
+            <tr class="success">
+              <td><?php //echo $viewProf[$key]['instructor_id']; ?><?php echo $viewProf[$key]['lname']; ?></td>
+              <td><?php echo $viewProf[$key]['fname']; ?></td>
+              <td><?php echo $viewProf[$key]['mname']; ?></td>
+        
+              <td><?php echo $viewProf[$key]['department']; ?></td>
+              <td><?php echo $viewProf[$key]['subj_taken']; ?></td>
+              <td>
+               <a href="controller_assignprofessor.php?prof_id=<?php echo $viewProf[$key]['instructor_id']; ?>&assign_prof=<?php echo $_GET['assign_prof'] ?>&cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>">
+                <button title="assign_prof" type="button" class="btn btn-success btn-xs">Assign</button>
+               </a>
+              </td>
+            </tr>
+            <?php } ?>         
+          </table>
+        </div>          
+      </div>
+      <div class="modal-footer">
+        <a href="controller_schedulemanagement.php?cou=<?php echo $_GET['cou'];?>&sem=<?php echo $_GET['sem']; ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <!--Assign Professor Modal form END-->
+
+  <!-- Delete subject to schedule Modal confirmation -->
+<div class="modal fade delete-sched-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Are you sure want to delete this subject to <?php  echo '<kbd>'. $_GET['cou'].'</kbd>' ;?> - <?php echo '<kbd>'. $_GET['sem']. '</kbd>' ?></h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <tr>
+              <th>Subjects</th>
+              <th>Subj. No.</th>
+              <th>Room</th>
+              <th>Professor</th>
+              <th>Days</th>
+              <th>Time</th>
+              <th>Units</th>
+            </tr>
+            <tr class="danger">
+            
+              <td>
+                <?php echo $sched->idtoName($sched->selectedSched($_GET,'delete_sched')['subjects'])['course_code'];?>
+              </td>
+              <td><?php echo $sched->selectedSched($_GET,'delete_sched')['subj_no'] ?></td>
+              <td>
+                <?php if($sched->selectedSched($_GET,'delete_sched')['room']==null){
+                  echo "no room assign ";
+                }else{echo $sched->roomidtoName($sched->selectedSched($_GET,'delete_sched')['room'])['room_name'];}
+
+                 ?>
+              </td>
+              <td>
+                <?php if($sched->selectedSched($_GET,'delete_sched')['professor']==null){
+                  echo "no professor assign";
+                }else{echo  $sched->profidtoName($sched->selectedSched($_GET,'delete_sched')['professor'])['fname']. " ". $sched->profidtoName($sched->selectedSched($_GET,'delete_sched')['professor'])['mname']. ". ". $sched->profidtoName($sched->selectedSched($_GET,'delete_sched')['professor'])['lname'];}
+              ?>     
+              </td>
+              <td>
+                <?php echo $sched->selectedSched($_GET,'delete_sched')['days'] ?>
+                <?php if ($sched->selectedSched($_GET,'delete_sched')['optional_day'] !=null){echo " - ". $sched->selectedSched($_GET,'delete_sched')['optional_day'] ;}?>
+              </td>
+              <td>
+                 <?php echo $sched->selectedSched($_GET,'delete_sched')['time_start'] ?> - 
+                  <?php echo $sched->selectedSched($_GET,'delete_sched')['time_end'] ?>
+              </td>
+              <td><?php echo $sched->idtoName($sched->selectedSched($_GET,'delete_sched')['subjects'])['total_unit'];?> </td>
+            </tr>           
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+         <form action="" method="post">
+        <a href="controller_schedulemanagement.php?cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>"><button type="button" class="btn btn-danger btn-sm">No</button></a>
+        <button type="button submit" name="delete_subjsched" class="btn btn-success btn-sm">Yes</button></a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete subject to schedule Modal confirmation END-->
+
+<!-- Update subject to schedule Modal confirmation -->
+<div class="modal fade update-sched-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Edit schedule to <?php echo "<kbd>". $_GET['cou']. "</kbd>". " - ". "<kbd>".$_GET['sem']. "</kbd>"; ?></h4>
+      </div>
+      <div class="modal-body">      
+        <form action="" method="post">
+          <div class="form">
+            <div class="form-group">
+            <p class="text-danger">NOTE: If you update this schedule the assigned room and professor will be delete!</p>
+                  
+              <label>Subject</label>
+              <input type="text"  value="<?php echo $sched->idtoName($sched->selectedSched($_GET,'update_sched')['subjects'])['course_code'];?>"  class="form-control" name="e_subject" id="display" required='true' list="list-display"/>
+              <datalist id="list-display">
+              <?php foreach ($selectSubj as $key => $row){?>
+              <option value="<?php echo $selectSubj[$key]['course_code']; ?>">
+              <?php echo $selectSubj[$key]['descriptive_title']." "; ?>&nbsp &nbsp &nbsp &nbsp &nbsp<?php echo $selectSubj[$key]['total_unit']; ?> Units</option>
+               <?php } ?>
+              </datalist> 
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col col-sm-6">
+                  <label>Start Time</label>
+                  <div class="input-group clockpicker" data-autoclose="true">
+                    <input type="text" name="e_start_t" class="form-control" value="<?php echo date("H:i", strtotime($sched->selectedSched($_GET,'update_sched')['time_start']))?>" required='true'>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="col col-sm-6">
+                  <label>End Time</label>
+                  <div class="input-group clockpicker" data-autoclose="true">
+                    <input type="text" name="e_end_t" class="form-control" value="<?php echo date("H:i", strtotime($sched->selectedSched($_GET,'update_sched')['time_end']))?>" required='true'>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col col-sm-6">
+                  <label>Day/s</label>               
+                  <select class="form-control" name="e_day" required='true'>                
+                  <option><?php echo $sched->selectedSched($_GET,'update_sched')['days'] ?></option>
+                  <option>MON</option>
+                  <option>TUES</option>
+                  <option>WED</option>
+                  <option>THUR</option>
+                  <option>FRI</option>
+                  <option>SAT</option>
+                  <option>SUN</option>
+                  </select>              
+                </div> 
+                <div class="col col-sm-6">
+                  <label style="">Day/s (Optional)</label>
+                  <select class="form-control" name="e_opt_day">
+                  <option><?php echo $sched->selectedSched($_GET,'update_sched')['optional_day'] ?></option>
+                  <option></option>
+                  <option>MON</option>
+                  <option>TUES</option>
+                  <option>WED</option>
+                  <option>THUR</option>
+                  <option>FRI</option>
+                  <option>SAT</option>
+                  <option>SUN</option>
+                  </select> 
+                  </div> 
+                  </div>
+            </div>
+            </div>
+          <div class="modal-footer">
+            <a href="controller_schedulemanagement.php?cou=<?php echo $_GET['cou'] ?>&sem=<?php echo $_GET['sem'] ?>&s_year=<?php echo $_GET['s_year'];?>&e_year=<?php echo $_GET['e_year'];?>"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+            <button type="button submit" name="edit_subjtosched" class="btn btn-success btn-sm">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Update subject to schedule Modal confirmation END-->
+
+<!-- view print room scheduleModal Modal -->
+<div class="modal fade view-schedule-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+ 
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div id="print_schedule">
+      <div class="modal-header">
+      
+          <div class="container" style="width:90%;">
+            <img src="../images/logo3.png" class="img-responsive" alt="LCUP logo" style="margin:0 auto;">
+          </div>
+  
+      </div>
+      <div class="modal-body">
+        <h4>
+          <div class="form-group">
+            <?php echo $_GET['cou']?>
+          </div>
+          <?php echo $_GET['sem']?> <?php echo $_GET['s_year']?> - <?php echo $_GET['e_year']?>
+        </h4>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <tr>
+              <th>Subjects</th>
+				  <th>Subj No.</th>
+				  <th>Room</th>
+				  <th>Professor</th>
+				  <th>Days</th>
+				  <th>Time</td>
+				  <th>Units</th>
+				  <?php if(!empty($scheds)){
+                       foreach ($scheds as $key => $row){?> 
+              </tr> 
+				<td><?php echo $sched->idtoName($scheds[$key]['subjects'])['course_code'];?></td>
+                <td><?php echo $scheds[$key]['subj_no']; ?></td>
+				<?php if (empty($scheds[$key]['room'])) {?>
+                            <td style="color:red;"><?php echo "No Room assigned yet";?></td>
+                        <?php } else {echo "<td>". $sched->roomidtoName($scheds[$key]['room'])['room_name']. "</td>";}?>
+                        
+                        <?php if (empty($scheds[$key]['professor'])) {?>
+                            <td style="color:red;"><?php echo "No Professor assigned yet";?></td>
+                        <?php } else {echo "<td>". $sched->profidtoName($scheds[$key]['professor'])['fname']. " ". $sched->profidtoName($scheds[$key]['professor'])['mname']. ". ". $sched->profidtoName($scheds[$key]['professor'])['lname']. "</td>";}?>
+                        
+                        <td><?php echo $scheds[$key]['days']; ?>
+                        <?php if (!empty($scheds[$key]['optional_day'])){
+                          echo "-". $scheds[$key]['optional_day'];
+                        } ?>
+                        </td>
+                        <td>
+                        <?php echo date("g:i a", strtotime($scheds[$key]['time_start'])); ?> 
+                        - 
+                        <?php echo date("g:i a", strtotime($scheds[$key]['time_end'])); ?>
+                        </td>
+                        <td><?php echo $sched->idtoName($scheds[$key]['subjects'])['total_unit'];?></td>
+                       
+                      </tr>
+			  
+             
+          
+             <?php }}?>
+          </table>
+        </div><!--End of table responsive-->
+        
+      </div>
+      </div>
+      <form action="#" method="post">
+        <div class="modal-footer">
+        <a href="controller_schedulemanagement.php?cou=<?php echo $_GET['cou']?>&sem=<?php echo $_GET['sem']?>&s_year=<?php echo $_GET['s_year']?>&e_year=<?php echo $_GET['e_year']?>"><button type="button" class="btn btn-danger btn-sm">Cancel</button></a>
+         <button type="button" onclick="printContent('print_schedule')" name="print" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Schedule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+  <!-- view print room scheduleModal Modal END-->
+
+<!--FOOTER-->
+<footer style="margin-top:100px;">
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <div class='hidden-xs'>
+      <div class="row">
+        <div class="col col-md-8">
+          <h3 class="navbar-text">La Consolacion University Philippines</h3>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_subject.php" title="subject"><i class="fa fa-book fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_faculty.php" title="faculty"><i class="fa fa-users fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_room.php" title="Room"><i class="fa fa-slideshare fa-2x"></i></a></p>
+        </div>
+        <div class="col col-md-1">
+          <p class="navbar-text"><a href="controller_schedule.php" title="Schedule"><i class="fa fa-calendar fa-2x"></i></a></p>
+        </div>
+      </div>
+    </div>
+    <div class='visible-xs'>  
+    <div class="row">
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_subject.php" title="subject"><i class="fa fa-book fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_faculty.php" title="faculty"><i class="fa fa-users fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_room.php" title="Room"><i class="fa fa-slideshare fa-2x"></i></a></p></div>
+      <div class="col col-xs-3"><p class="navbar-text"><a href="controller_schedule.php" title="Schedule"><i class="fa fa-calendar fa-2x"></i></a></p></div>
+    </div>
+    </div>
+  </div>
+</div>
+</footer>
+<!--Footer END-->
+
+<script type"text/javascript" src="../bootstrap/jquery-1.11.1.min.js"></script>
+<script type"text/javascript" src="../bootstrap/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script type"text/javascript" src="../bootstrap/bootstrap-3.3.1/js/script.js"></script>
+<script type"text/javascript" src="../bootstrap/clockpicker-gh-pages/dist/jquery-clockpicker.min.js"></script>
+
+<script type="text/javascript">
+$('.clockpicker').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    donetext: 'Done'
+});
+</script>
+
+<script>
+  function printContent(el){
+    var restorepage = document.body.innerHTML;
+    var printcontent = document.getElementById(el).innerHTML;
+    document.body.innerHTML = printcontent;
+    document.title = "Schedule";
+    window.print();
+    document.body.innerHTML = restorepage;
+  }
+</script>
+
+<?php if(isset($_GET['delete_sched']) >0){ ?>
+<script>
+  $(document).ready(function(){
+  $('.delete-sched-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+<?php if(isset($_GET['update_sched']) >0){ ?>
+<script>
+  $(document).ready(function(){
+  $('.update-sched-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+<?php if(isset($_GET['add_subj_modal']) >0){ ?>
+<script>
+  $(document).ready(function(){
+  $('.add-sched-subject-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+<?php if(isset($_GET['assign_room']) >0){ ?>
+<script>
+  $(document).ready(function(){
+  $('.assign-room-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+<?php if(isset($_GET['assign_prof']) >0){ ?>
+<script>
+  $(document).ready(function(){
+  $('.assign-prof-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+<?php if(isset($_GET['print_shed']) >0){ ?>
+<script>
+  $(document).ready(function(){
+  $('.view-schedule-modal').modal('show')
+  });
+</script>
+<?php } ?>
+
+
+
+
+<?php if(isset($_GET['success']) == 1){?>
+<script>alert("Subject is succesfully Added to Schedule");</script>
+<?php } ?>
+
+<?php if(isset($_GET['subj_updated']) == 1){?>
+<script>alert("Subject is succesfully Updated to Schedule");</script>
+<?php } ?>
+
+
+
+<?php if(isset($_GET['not_valid_subj']) == 1){?>
+<script>alert("Sorry the subject you input is not valid...");</script>
+<?php } ?>
+
+<?php if(isset($_GET['not_valid_subj2']) == 1){?>
+<script>alert("Sorry the subject you input is already inputed");</script>
+<?php } ?>
+
+<?php if(isset($_GET['not_valid_time']) == 1){?>
+<script>alert("Sorry the time you input is not valid...");</script>
+<?php } ?>
+
+<?php if(isset($_GET['not_valid_day']) == 1){?>
+<script>alert("Sorry the day you input is not valid...");</script>
+<?php } ?>
+
+<?php if(isset($_GET['room_assigned']) == 1){?>
+<script>alert("Room has been assigned");</script>
+<?php } ?>
+
+<?php if(isset($_GET['prof_assigned']) == 1){?>
+<script>alert("Professor has been assigned");</script>
+<?php } ?>
+
+<?php if(isset($_GET['room_conflict']) == 1){?>
+<script>alert("Sorry the room you want to assign has a conflict to other room");</script>
+<?php } ?>
+
+<?php if(isset($_GET['prof_conflict']) == 1){?>
+<script>alert("Sorry the professor you want to assign has a conflict to other professor");</script>
+<?php } ?>
+
+<?php if(isset($_GET['subjtosched_deleted']) == 1){?>
+<script>alert("The subject to schedule is succesfully deleted");</script>
+<?php } ?>
+
+<?php if(isset($_GET['year_not_valid']) == 1){?>
+<script>alert("The year is not valid");</script>
+<?php } ?>
+
+</body>
+</html>
